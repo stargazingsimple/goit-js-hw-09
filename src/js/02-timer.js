@@ -9,6 +9,7 @@ const refs = {
   hoursValue: document.querySelector('span[data-hours]'),
   minutesValue: document.querySelector('span[data-minutes]'),
   secondsValue: document.querySelector('span[data-seconds]'),
+  input: document.querySelector('#datetime-picker'),
 };
 
 const INTERVAL_DELAY = 1000;
@@ -35,10 +36,14 @@ const dateFlatPicker = flatpickr('input#datetime-picker', {
 refs.startButton.addEventListener('click', onStartTimer);
 
 function onStartTimer() {
+  refs.input.disabled = true;
+  refs.startButton.disabled = true;
   setInterval(() => {
     const dateCurrent = Date.now();
     const dateSelect = dateFlatPicker.selectedDates[0];
     if (dateCurrent > dateSelect) {
+      refs.input.disabled = false;
+      refs.startButton.disabled = false;
       return;
     }
     const deltaTime = dateSelect - dateCurrent;
